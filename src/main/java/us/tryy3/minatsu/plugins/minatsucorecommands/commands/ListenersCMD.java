@@ -3,9 +3,11 @@ package us.tryy3.minatsu.plugins.minatsucorecommands.commands;
 import us.tryy3.java.minatsu.Bot;
 import us.tryy3.java.minatsu.TCPServer;
 import us.tryy3.java.minatsu.command.Command;
+import us.tryy3.java.minatsu.utils.messageBuilder;
 import us.tryy3.minatsu.plugins.minatsupermissions.PermissionsApi;
 
 import java.util.Collections;
+import java.util.UUID;
 
 /**
  * Created by tryy3 on 2016-01-12.
@@ -28,9 +30,30 @@ public class ListenersCMD extends Command {
     @Override
     public Boolean onCommand(TCPServer.Connection connection, String user, String channel, Command command, String label, String[] args) {
         if (perms.hasPlayerPermission(user, "core.commands.listeners")) {
-            //TODO: Implement this
+            messageBuilder builder = new messageBuilder();
+            if (args == null || args.length < 1) {
+                builder.addMessage(channel, "Listener connections");
+                int i = 1;
+                for (UUID id : bot.getTcpServer().getConnections().keySet()) {
+                    builder.addMessage(channel, String.format("%s: %s", i++, id));
+                }
+                connection.sendMessage(builder.build());
+            } else {
+                TCPServer.Connection con = bot.getTcpServer().getConnection(UUID.fromString(args[0]));
+                if (con == null) {
+                    connection.sendMessage(channel, String.format("There is no listener with the UUID %s!", args[0]));
+                } else {
+                    builder.addMessage(channel, String.format("Information about the listener %s!", args[0]));
+                    builder.addMessage(channel, String.format("Name: %s", con.getListenerName()));
+                    builder.addMessage(channel, String.format("Type: %s", con.getType()));
+                    builder.addMessage(channel, String.format("VersionListener: %s", con.getVersionListener()));
+                    builder.addMessage(channel, String.format("VersionStandard: %s", con.getVersionStandard()));
+
+                    connection.sendMessage(builder.build());
+                }
+            }
         }
 
-        return super.onCommand(connection, user, channel, command, label, args);
+        return true;
     }
 }

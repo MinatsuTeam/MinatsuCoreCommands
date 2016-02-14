@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import us.tryy3.java.minatsu.Bot;
 import us.tryy3.java.minatsu.TCPServer;
 import us.tryy3.java.minatsu.command.Command;
+import us.tryy3.java.minatsu.utils.messageBuilder;
 import us.tryy3.minatsu.plugins.minatsucorecommands.Utils;
 import us.tryy3.minatsu.plugins.minatsupermissions.PermissionsApi;
 
@@ -35,29 +36,16 @@ public class InfoCMD extends Command {
             int plugins = bot.getPlugins().size();
             int listeners = bot.getTcpServer().getConnections().size();
 
-            JsonArray msgArray = new JsonArray();
-
-            connection.sendMessage(formatMessage(channel,
-                    String.format("Uptime: %s", uptime),
-                    String.format("Maximum memory: %s MB", maxM),
-                    String.format("Allocated memory: %s MB", totM),
-                    String.format("Free memory: %s MB", freeM),
-                    String.format("Plugin count: %s", plugins),
-                    String.format("Listener count: %s", listeners)));
+            connection.sendMessage(new messageBuilder()
+                    .addMessage(channel, String.format("Uptime: %s", uptime))
+                    .addMessage(channel, String.format("Maximum memory: %s MB", maxM))
+                    .addMessage(channel, String.format("Allocated memory: %s MB", totM))
+                    .addMessage(channel, String.format("Free memory: %s MB", freeM))
+                    .addMessage(channel, String.format("Plugin count: %s", plugins))
+                    .addMessage(channel, String.format("Listener count: %s", listeners))
+                    .build());
         }
 
         return true;
-    }
-
-    public JsonArray formatMessage(String channel, String... msg) {
-        JsonArray array = new JsonArray();
-
-        for (String s : msg) {
-            JsonArray a = new JsonArray();
-            a.add(channel);
-            a.add(s);
-            array.add(a);
-        }
-        return array;
     }
 }
