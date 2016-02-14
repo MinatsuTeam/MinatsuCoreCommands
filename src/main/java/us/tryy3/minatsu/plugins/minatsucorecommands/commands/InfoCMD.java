@@ -1,10 +1,9 @@
 package us.tryy3.minatsu.plugins.minatsucorecommands.commands;
 
-import com.google.gson.JsonArray;
 import us.tryy3.java.minatsu.Bot;
 import us.tryy3.java.minatsu.TCPServer;
 import us.tryy3.java.minatsu.command.Command;
-import us.tryy3.java.minatsu.utils.messageBuilder;
+import us.tryy3.java.minatsu.utils.MessageBuilder;
 import us.tryy3.minatsu.plugins.minatsucorecommands.Utils;
 import us.tryy3.minatsu.plugins.minatsupermissions.PermissionsApi;
 
@@ -36,7 +35,7 @@ public class InfoCMD extends Command {
             int plugins = bot.getPlugins().size();
             int listeners = bot.getTcpServer().getConnections().size();
 
-            connection.sendMessage(new messageBuilder()
+            connection.sendMessage(new MessageBuilder()
                     .addMessage(channel, String.format("Uptime: %s", uptime))
                     .addMessage(channel, String.format("Maximum memory: %s MB", maxM))
                     .addMessage(channel, String.format("Allocated memory: %s MB", totM))

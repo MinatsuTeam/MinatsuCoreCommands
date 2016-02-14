@@ -3,7 +3,7 @@ package us.tryy3.minatsu.plugins.minatsucorecommands.commands;
 import us.tryy3.java.minatsu.Bot;
 import us.tryy3.java.minatsu.TCPServer;
 import us.tryy3.java.minatsu.command.Command;
-import us.tryy3.java.minatsu.utils.messageBuilder;
+import us.tryy3.java.minatsu.utils.MessageBuilder;
 import us.tryy3.minatsu.plugins.minatsupermissions.PermissionsApi;
 
 import java.util.Collections;
@@ -30,7 +30,7 @@ public class ListenersCMD extends Command {
     @Override
     public Boolean onCommand(TCPServer.Connection connection, String user, String channel, Command command, String label, String[] args) {
         if (perms.hasPlayerPermission(user, "core.commands.listeners")) {
-            messageBuilder builder = new messageBuilder();
+            MessageBuilder builder = new MessageBuilder();
             if (args == null || args.length < 1) {
                 builder.addMessage(channel, "Listener connections");
                 int i = 1;
